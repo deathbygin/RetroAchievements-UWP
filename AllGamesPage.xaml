@@ -1,0 +1,90 @@
+<Page
+    x:Class="RetroAchievements_UWP.AllGamesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RetroAchievements_UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    XYFocusKeyboardNavigation="Enabled"
+    KeyDown="Page_KeyDown">
+
+    <Grid>
+        <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <Grid Width="1120" Height="800">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Profile Information Section with Image (Sticky Header) -->
+                <Grid Grid.Row="0" Margin="10,10,20,0">
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Spacing="20">
+                        <Button x:Name="BackButton" Content="Back" Click="BackButton_Click" Height="84" VerticalAlignment="Top" CornerRadius="4" FontWeight="Semibold"/>
+                        <!-- User Profile Image -->
+                        <Image x:Name="UserProfileImage" Width="84" Height="84" Stretch="UniformToFill"/>
+
+                        <!-- Profile Text Information -->
+                        <StackPanel Orientation="Vertical" Spacing="4">
+                            <TextBlock Text="User Profile" FontSize="20" FontWeight="Semibold"/>
+                            <TextBlock x:Name="UserTextBlock" FontSize="11"/>
+                            <TextBlock x:Name="MemberSinceTextBlock" FontSize="11"/>
+                            <TextBlock x:Name="MottoTextBlock" FontSize="11"/>
+                            <TextBlock x:Name="TotalPointsTextBlock" FontSize="11"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- App Title Text -->
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock x:Name="AppTitleTextBlock" Text="RetroAchievements" 
+                                   FontSize="28" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Right"/>
+                        <TextBlock Text="v1.0.0" 
+                                   FontSize="14" 
+                                   Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" 
+                                   HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Content Area -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+                    <StackPanel Orientation="Vertical" Padding="20">
+                        <TextBlock x:Name="AllGamesTitleTextBlock" Text="All Games" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <GridView x:Name="AllGamesGridView"
+                                  ScrollViewer.HorizontalScrollMode="Disabled"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                  ScrollViewer.VerticalScrollMode="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                  IsItemClickEnabled="True"
+                                  ItemClick="AllGamesGridView_ItemClick"
+                                  ContainerContentChanging="OnContainerContentChanging">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="9"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ImageUrl}" Width="100" Height="100" Margin="10" Stretch="UniformToFill">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Padding="6">
+                                                <StackPanel Spacing="3">
+                                                    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="18"/>
+                                                     <TextBlock Text="{Binding ConsoleName}" FontSize="14" FontStyle="Italic" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"/>
+                                                     <TextBlock Text="{Binding AchievementProgress}" FontSize="14"/>
+                                                    <ProgressBar Value="{Binding NumAchieved}" Maximum="{Binding NumPossibleAchievements}" Height="6" CornerRadius="2"/>
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                    </Image>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Page>
