@@ -1,0 +1,114 @@
+<Page
+    x:Class="RetroAchievements_UWP.LeaderboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RetroAchievements_UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    XYFocusKeyboardNavigation="Enabled"
+    KeyDown="Page_KeyDown">
+
+    <Grid>
+        <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <Grid Width="1400" Height="800" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Profile Information Section with Image (Sticky Header) -->
+                <Grid Grid.Row="0" Margin="10,0,20,0">
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Spacing="20">
+                        <Button x:Name="BackButton" Content="Back" Click="BackButton_Click" Height="84" VerticalAlignment="Top" CornerRadius="4" FontWeight="Semibold"/>
+                        <!-- User Profile Image -->
+                        <Image x:Name="UserProfileImage" Width="84" Height="84" Stretch="UniformToFill"/>
+
+                        <!-- Profile Text Information -->
+                        <StackPanel Orientation="Vertical" Spacing="4">
+                            <TextBlock Text="User Profile" FontSize="20" FontWeight="Semibold"/>
+                            <TextBlock x:Name="UserTextBlock" FontSize="11"/>
+                            <TextBlock x:Name="MemberSinceTextBlock" FontSize="11"/>
+                            <TextBlock x:Name="MottoTextBlock" FontSize="11"/>
+                            <TextBlock x:Name="TotalPointsTextBlock" FontSize="11"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- App Title Text -->
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock x:Name="AppTitleTextBlock" Text="RetroAchievements" 
+                                   FontSize="28" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Right"/>
+                        <TextBlock Text="v1.0.0" 
+                                   FontSize="14" 
+                                   Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" 
+                                   HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </Grid>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Leaderboard" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <GridView x:Name="LeaderboardsGridView"
+                                  VerticalAlignment="Stretch"
+                                  ScrollViewer.HorizontalScrollMode="Disabled"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                  ScrollViewer.VerticalScrollMode="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                  ContainerContentChanging="OnContainerContentChanging">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="2"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="10" Width="600" Height="140" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Padding="20" CornerRadius="8" BorderBrush="{ThemeResource SystemControlForegroundChromeDisabledLowBrush}" BorderThickness="1">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Padding="6">
+                                                <StackPanel Orientation="Vertical" Spacing="3">
+                                                    <TextBlock Text="Your Stats" FontWeight="Bold" FontSize="18" Margin="0,0,0,2"/>
+                                                    <!-- Stats visible when available -->
+                                                    <StackPanel Visibility="{Binding UserStatsVisibility}" Orientation="Vertical" Spacing="3">
+                                                        <TextBlock Text="{Binding UserFormattedScore}" FontSize="14"/>
+                                                        <TextBlock Text="{Binding UserRank}" FontSize="14"/>
+                                                    </StackPanel>
+                                                    <!-- Message visible when no stats -->
+                                                    <TextBlock Text="No leaderboard entry submitted yet." Visibility="{Binding UserNoStatsVisibility}" FontStyle="Italic" FontSize="14" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"/>
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="200"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Left Column: Title and Description -->
+                                        <Grid Grid.Column="0" Margin="0,0,20,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding Title}" FontSize="22" FontWeight="Bold" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,10,0,0">
+                                                <TextBlock Text="{Binding Description}" FontSize="15" TextWrapping="Wrap"/>
+                                            </ScrollViewer>
+                                        </Grid>
+
+                                        <!-- Right Column: Top User and Score -->
+                                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding TopEntryUser}" FontSize="16" FontWeight="SemiBold" Foreground="{ThemeResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Right" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxWidth="200"/>
+                                            <TextBlock Text="{Binding TopEntryScore}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Page>
