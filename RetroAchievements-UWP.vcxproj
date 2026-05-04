@@ -10,7 +10,7 @@
     <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.26100.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
@@ -76,30 +76,31 @@
     <PlatformToolset>v143</PlatformToolset>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
-  <PropertyGroup Label="UserMacros" />
-
+  <PropertyGroup Label="UserMacros">
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <PackageCertificateKeyFile>RetroAchievements-UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -136,17 +137,29 @@
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemGroup>
+    <ClInclude Include="CredentialManager.h" />
+    <ClInclude Include="ThemeSettings.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
-        <DependentUpon>App.xaml</DependentUpon>
+      <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="MainPage.xaml.h">
-        <DependentUpon>MainPage.xaml</DependentUpon>
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Profile.xaml.h">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="GameInfoPage.xaml.h">
+      <DependentUpon>GameInfoPage.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="AllGamesPage.xaml.h">
+      <DependentUpon>AllGamesPage.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="LeaderboardPage.xaml.h">
+      <DependentUpon>LeaderboardPage.xaml</DependentUpon>
     </ClInclude>
   </ItemGroup>
-
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
@@ -154,14 +167,16 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Profile.xaml" />
+    <Page Include="GameInfoPage.xaml" />
+    <Page Include="AllGamesPage.xaml" />
+    <Page Include="LeaderboardPage.xaml" />
   </ItemGroup>
-
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
-
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\SplashScreen.scale-200.png" />
@@ -171,15 +186,14 @@
     <Image Include="Assets\StoreLogo.png" />
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
-
   <ItemGroup>
     <ClCompile Include="App.xaml.cpp">
-        <DependentUpon>App.xaml</DependentUpon>
+      <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="CredentialManager.cpp" />
     <ClCompile Include="MainPage.xaml.cpp">
-        <DependentUpon>MainPage.xaml</DependentUpon>
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </ClCompile>
-
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -188,11 +202,27 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Profile.xaml.cpp">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="GameInfoPage.xaml.cpp">
+      <DependentUpon>GameInfoPage.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="AllGamesPage.xaml.cpp">
+      <DependentUpon>AllGamesPage.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="LeaderboardPage.xaml.cpp">
+      <DependentUpon>LeaderboardPage.xaml</DependentUpon>
+    </ClCompile>
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="node\package.json" />
+    <None Include="node\ra-client.mjs" />
+    <None Include="node\README.md" />
+    <None Include="RetroAchievements-UWP_TemporaryKey.pfx" />
+    <None Include="RetroAchievementsClientExample.js" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-
 </Project>

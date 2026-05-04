@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -8,13 +8,13 @@
 
   <Identity
     Name="cebc349c-af4a-4bca-abaf-6d853d7e1624"
-    Publisher="CN=Matthew Ryan"
+    Publisher="CN=deathbygin"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="cebc349c-af4a-4bca-abaf-6d853d7e1624" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>RetroAchievements_UWP</DisplayName>
+    <DisplayName>RetroAchievements</DisplayName>
     <PublisherDisplayName>Matthew Ryan</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,10 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="RetroAchievements_UWP.App">
       <uap:VisualElements
-        DisplayName="RetroAchievements_UWP"
+        DisplayName="RetroAchievements"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="RetroAchievements_UWP"
+        Description="RetroAchievements"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

@@ -1,10 +1,11 @@
-﻿//
+//
 // App.xaml.cpp
 // Implementation of the App class.
 //
 
 #include "pch.h"
 #include "MainPage.xaml.h"
+#include "ThemeSettings.h"
 
 using namespace RetroAchievements_UWP;
 
@@ -30,6 +31,9 @@ App::App()
 {
     InitializeComponent();
     Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
+    
+    // Disable "Mouse Mode" on Xbox and enable controller-first directional focus
+    this->RequiresPointerMode = ApplicationRequiresPointerMode::WhenRequested;
 }
 
 /// <summary>
@@ -39,6 +43,7 @@ App::App()
 /// <param name="e">Details about the launch request and process.</param>
 void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e)
 {
+    ThemeSettings::ApplyAccentToResources(Application::Current->Resources);
     auto rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
 
     // Do not repeat app initialization when the Window already has content,
@@ -48,6 +53,7 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
         // Create a Frame to act as the navigation context and associate it with
         // a SuspensionManager key
         rootFrame = ref new Frame();
+        rootFrame->XYFocusKeyboardNavigation = XYFocusKeyboardNavigationMode::Enabled;
 
         rootFrame->NavigationFailed += ref new Windows::UI::Xaml::Navigation::NavigationFailedEventHandler(this, &App::OnNavigationFailed);
 
